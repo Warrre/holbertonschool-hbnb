@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Login Simple</title>
+</head>
+<body>
+    <h1>Test de Connexion</h1>
+    
+    <form id="test-login">
+        <p>
+            <label>Email:</label><br>
+            <input type="email" id="test-email" value="demo@hbnb.com" required>
+        </p>
+        <p>
+            <label>Password:</label><br>
+            <input type="password" id="test-password" value="demo123" required>
+        </p>
+        <button type="submit">Se connecter</button>
+    </form>
+    
+    <div id="result"></div>
+    
+    <script>
+        document.getElementById('test-login').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('test-email').value;
+            const password = document.getElementById('test-password').value;
+            const resultDiv = document.getElementById('result');
+            
+            resultDiv.innerHTML = 'Connexion en cours...';
+            
+            try {
+                console.log('Tentative de connexion:', email, password);
+                
+                const response = await fetch('http://localhost:8000/api/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        email: email,
+                        password: password
+                    })
+                });
+                
+                console.log('Response status:', response.status);
+                const data = await response.json();
+                console.log('Response data:', data);
+                
+                if (data.success) {
+                    resultDiv.innerHTML = `✅ SUCCÈS! Bienvenue ${data.user_name}! Token: ${data.token}`;
+                    resultDiv.style.color = 'green';
+                } else {
+                    resultDiv.innerHTML = `❌ ERREUR: ${data.error}`;
+                    resultDiv.style.color = 'red';
+                }
+                
+            } catch (error) {
+                console.error('Erreur:', error);
+                resultDiv.innerHTML = `❌ ERREUR RÉSEAU: ${error.message}`;
+                resultDiv.style.color = 'red';
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HBnB - List of Places</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <h1 class="header-title">HBnB</h1>
+        </div>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="login.html" id="login-btn" class="login-button">Login</a>
+            <span id="user-info" style="display: none;">
+                Bonjour <span id="username"></span> 
+                <a href="#" onclick="logout()">Déconnexion</a>
+            </span>
+        </nav>
+    </header>
+    
+    <main>
+        <!-- Section Titre Central -->
+        <section id="hero-section">
+            <div class="hero-content">
+                <h1 class="main-title">HBnB</h1>
+                <img src="https://user-images.githubusercontent.com/99370798/275349107-cde822dc-8998-4944-a3ae-2ba839dd2878.png" alt="HBnB Illustration" class="hero-image">
+                <p class="main-tagline">Cliquer Trouver Loger</p>
+            </div>
+        </section>
+        
+        <section id="filter">
+            <div class="filter-container">
+                <label for="price-filter">
+                    filter:
+                </label>
+                <select id="price-filter">
+                    <option value="">filter Prices</option>
+                    <option value="50">$50</option>
+                    <option value="100">$100</option>
+                    <option value="200">$200</option>
+                </select>
+            </div>
+        </section>
+        <section id="places-list">
+            <!-- List of places with example data -->
+            <div class="place-card" data-id="logement-occasion">
+                <img src="https://cdn.generationvoyage.fr/2022/02/logement-2-1.png" alt="Logement d'Occasion" class="place-image">
+                <h3>Logement d'Occasion</h3>
+                <p class="price">$50 / nuit</p>
+                <p>Logement confortable et abordable, parfait pour un séjour économique sans compromis sur le confort.</p>
+                <a href="place.html?id=logement-occasion" class="details-button">Voir les détails</a>
+            </div>
+
+            <div class="place-card" data-id="appartement-ville">
+                <img src="https://cdn.generationvoyage.fr/2022/02/logement-7-1.png" alt="Appartement en Ville" class="place-image">
+                <h3>Appartement en Ville</h3>
+                <p class="price">$50 / nuit</p>
+                <p>Logement moderne au cœur de la ville, proche de tous les commerces.</p>
+                <a href="place.html?id=appartement-ville" class="details-button">Voir les détails</a>
+            </div>
+
+            <div class="place-card" data-id="studio-building">
+                <img src="https://th.bing.com/th/id/R.8bdb31a1d24ce6b8916e49f2292de543?rik=y6HoIDR9%2fA95iw&pid=ImgRaw&r=0" alt="Studio dans un Building" class="place-image">
+                <h3>Logement dans un Building</h3>
+                <p class="price">$100 / nuit</p>
+                <p>Studio élégant dans un immeuble moderne avec toutes les commodités.</p>
+                <a href="place.html?id=studio-building" class="details-button">Voir les détails</a>
+            </div>
+
+            <div class="place-card" data-id="logement-naturel">
+                <img src="https://offloadmedia.feverup.com/lyonsecret.com/wp-content/uploads/2021/06/29070343/shutterstock_1531738394-1-1024x683.jpg" alt="Logement Naturel" class="place-image">
+                <h3>Logement Naturel</h3>
+                <p class="price">$100 / nuit</p>
+                <p>Échappez-vous dans ce logement en pleine nature, calme et ressourçant.</p>
+                <a href="place.html?id=logement-naturel" class="details-button">Voir les détails</a>
+            </div>
+
+            <div class="place-card" data-id="logement-luxe">
+                <img src="https://th.bing.com/th/id/R.71168989b965ab7a44303873f6d662e1?rik=Qan76jaH30nDSw&pid=ImgRaw&r=0" alt="Logement de Luxe" class="place-image">
+                <h3>Logement de Luxe</h3>
+                <p class="price">$200 / nuit</p>
+                <p>Expérience haut de gamme dans ce logement luxueux avec services premium.</p>
+                <a href="place.html?id=logement-luxe" class="details-button">Voir les détails</a>
+            </div>
+
+            <div class="place-card" data-id="logement-atypique">
+                <img src="https://th.bing.com/th/id/R.a9f34fe1621bc5b434560f2108eea67c?rik=35e6%2fBt8noSMEA&pid=ImgRaw&r=0" alt="Logement Atypique" class="place-image">
+                <h3>Logement Atypique</h3>
+                <p class="price">$200 / nuit</p>
+                <p>Logement unique et original pour une expérience inoubliable et authentique.</p>
+                <a href="place.html?id=logement-atypique" class="details-button">Voir les détails</a>
+            </div>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2025 HBnB. All rights reserved.</p>
+    </footer>
+    <script src="scripts_simple.js"></script>
+</body>
+</html>

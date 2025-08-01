@@ -1,0 +1,12 @@
+sequenceDiagram
+    participant User
+    participant API
+    participant BusinessLogic
+    participant Database
+
+    User->>API: POST /users (registration data)
+    API->>BusinessLogic: validate_user_data()
+    BusinessLogic->>Database: INSERT new user
+    Database-->>BusinessLogic: confirmation
+    BusinessLogic-->>API: return success response
+    API-->>User: 201 Created / Error
