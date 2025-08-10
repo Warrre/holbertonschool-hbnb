@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HBnB - List of Places</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <h1 class="header-title">HBnB</h1>
+        </div>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="login.html" id="login-btn" class="login-button">Login</a>
+            <span id="user-info" style="display: none;">
+                Bonjour <span id="username"></span> 
+                <a href="#" onclick="logout()">Déconnexion</a>
+            </span>
+        </nav>
+    </header>
+    
+    <main>
+        <!-- Section Titre Central -->
+        <section id="hero-section">
+            <div class="hero-content">
+                <h1 class="main-title">HBnB</h1>
+                <img src="https://user-images.githubusercontent.com/99370798/275349107-cde822dc-8998-4944-a3ae-2ba839dd2878.png" alt="HBnB Illustration" class="hero-image">
+                <p class="main-tagline">Cliquer Trouver Loger</p>
+            </div>
+        </section>
+        
+        <section id="filter">
+            <div class="filter-container">
+                <label for="price-filter">
+                    Filter by Price:
+                </label>
+                <select id="price-filter">
+                    <option value="">All Prices</option>
+                    <option value="50">$50</option>
+                    <option value="100">$100</option>
+                    <option value="200">$200</option>
+                </select>
+            </div>
+        </section>
+        <section id="places-list">
+            <!-- Places loaded dynamically from API -->
+            <div class="loading-indicator">
+                <div class="loading-spinner"></div>
+                <p>Loading places from API...</p>
+            </div>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2025 HBnB. All rights reserved.</p>
+    </footer>
+    <script src="scripts.js"></script>
+</body>
+</html>
