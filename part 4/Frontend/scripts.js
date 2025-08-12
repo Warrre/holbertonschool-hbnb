@@ -1,32 +1,7 @@
 /**
- * HBnB Frontend Application - Complete Full Stack Integration
- * 
- * UNIFIED ARCHITECTURE:
- * - Real Flask backend integration with intelligent fallback simulation
- * - JWT authentication with automatic token management
- * - Professional error handling with comprehensive logging
- * - Multi-environment support (development/production)
- * - Complete API integration with CORS handling
- * - Unified codebase with modular class architecture
- * 
- * FULL STACK FEATURES:
- * ✅ Real Flask API communication with automatic detection
- * ✅ JWT token management and session handling
- * ✅ Complete CRUD operations for places and reviews
- * ✅ Backend/frontend synchronization with real data
- * ✅ Intelligent fallback simulation when backend unavailable
- * ✅ Professional UI/UX with loading states and animations
- * ✅ Comprehensive validation and error recovery
- */
-
-// ==================== UNIFIED CONFIGURATION & CONSTANTS ====================
-
-/**
- * Complete application configuration for both backend and simulation modes
- * @constant {Object} API_CONFIG
+ * HBnB Frontend
  */
 const API_CONFIG = {
-    // Real Backend Configuration
     BACKEND_URL: 'http://localhost:5000',  // Flask backend default port
     API_BASE: '/api/v1',
     
@@ -37,7 +12,7 @@ const API_CONFIG = {
         REFRESH: '/auth/refresh'
     },
     
-    // Data Endpoints  
+
     ENDPOINTS: {
         PLACES: '/places',
         REVIEWS: '/reviews',
@@ -45,21 +20,20 @@ const API_CONFIG = {
         AMENITIES: '/amenities'
     },
     
-    // Request Configuration
+
     TIMEOUT: 8000,
     RETRY_ATTEMPTS: 3,
     RETRY_DELAY: 1000,
     
-    // Environment Configuration
-    USE_REAL_BACKEND: true,  // Set to false to use simulation only
-    AUTO_DETECT: true,       // Automatically detect if backend is available
-    DEBUG_MODE: true,        // Enable detailed logging
-    FALLBACK_SUCCESS_RATE: 0.9 // For simulation fallback mode
+
+    USE_REAL_BACKEND: true,
+    AUTO_DETECT: true, 
+    FALLBACK_SUCCESS_RATE: 0.9
 };
 
 /**
  * Application states for consistent state management
- * @constant {Object} APP_STATES
+ * 
  */
 const APP_STATES = {
     LOADING: 'loading',
@@ -68,11 +42,8 @@ const APP_STATES = {
     IDLE: 'idle'
 };
 
-// ==================== BACKEND INTEGRATION CLASSES ====================
 
-/**
- * Custom error classes for better error handling and user feedback
- */
+
 class BackendError extends Error {
     constructor(message, status = 0, details = {}) {
         super(message);
@@ -84,8 +55,8 @@ class BackendError extends Error {
 
     /**
      * Gets user-friendly error message
-     * @returns {string} User-friendly error message
-     */
+     * 
+    */
     getUserMessage() {
         switch (this.status) {
             case 400: return 'Données invalides. Vérifiez vos informations.';
@@ -102,8 +73,8 @@ class BackendError extends Error {
 
 /**
  * Professional Backend API Integration Manager
- * Handles communication with Flask backend and provides fallback mechanisms
- */
+ * 
+*/
 class BackendAPIManager {
     constructor() {
         this.baseURL = API_CONFIG.BACKEND_URL + API_CONFIG.API_BASE;
@@ -115,8 +86,7 @@ class BackendAPIManager {
     /**
      * Detects if the real backend is available
      * Tests connectivity and sets up appropriate handling
-     * @returns {Promise<boolean>} Backend availability status
-     */
+    */
     async detectBackendAvailability() {
         if (!API_CONFIG.AUTO_DETECT) {
             this.backendAvailable = API_CONFIG.USE_REAL_BACKEND;
@@ -129,7 +99,7 @@ class BackendAPIManager {
             const controller = new AbortController();
             const timeoutId = setTimeout(() => controller.abort(), 3000);
             
-            // Test basic connectivity to backend
+
             const response = await fetch(`${API_CONFIG.BACKEND_URL}/api/v1/places`, {
                 method: 'GET',
                 headers: {
@@ -137,12 +107,12 @@ class BackendAPIManager {
                     'Accept': 'application/json'
                 },
                 signal: controller.signal,
-                mode: 'cors' // Enable CORS
+                mode: 'cors' 
             });
             
             clearTimeout(timeoutId);
             
-            if (response.ok || response.status === 404) { // 404 is fine, means server is running
+            if (response.ok || response.status === 404) {
                 this.backendAvailable = true;
                 console.log('✅ Backend is available - Real API mode enabled');
                 return true;
@@ -162,25 +132,23 @@ class BackendAPIManager {
 
     /**
      * Makes authenticated API call to real backend
-     * @param {string} endpoint - API endpoint path
-     * @param {Object} options - Request configuration options
-     * @returns {Promise<Object>} API response data
+     * 
      */
     async makeBackendCall(endpoint, options = {}) {
         const { method = 'GET', body = null, requiresAuth = false } = options;
         
-        // Prepare headers
+
         const headers = {
             'Content-Type': 'application/json',
             'Accept': 'application/json'
         };
 
-        // Add authentication if required
+
         if (requiresAuth && this.authToken) {
             headers['Authorization'] = `Bearer ${this.authToken}`;
         }
 
-        // Prepare fetch options
+
         const fetchOptions = {
             method,
             headers,
@@ -188,7 +156,7 @@ class BackendAPIManager {
             credentials: 'include'
         };
 
-        // Add body for POST/PUT requests
+
         if (body && ['POST', 'PUT', 'PATCH'].includes(method)) {
             fetchOptions.body = JSON.stringify(body);
         }
@@ -201,10 +169,10 @@ class BackendAPIManager {
                 console.log(`🌐 [${requestId}] Backend API Call: ${method} ${this.baseURL}${endpoint}`);
             }
             
-            // Make the actual request
+
             const response = await fetch(`${this.baseURL}${endpoint}`, fetchOptions);
             
-            // Handle response
+
             if (!response.ok) {
                 const errorText = await response.text();
                 let errorData;
@@ -222,7 +190,7 @@ class BackendAPIManager {
                 );
             }
             
-            // Parse response data
+
             const data = await response.json();
             if (API_CONFIG.DEBUG_MODE) {
                 console.log(`✅ [${requestId}] Backend API Success:`, data);
@@ -250,9 +218,7 @@ class BackendAPIManager {
 
     /**
      * Authenticates user with Flask backend
-     * @param {string} email - User email address
-     * @param {string} password - User password
-     * @returns {Promise<Object>} Authentication result with user data
+     * 
      */
     async login(email, password) {
         try {
@@ -267,11 +233,11 @@ class BackendAPIManager {
             });
             
             if (response.access_token) {
-                // Store authentication token
+
                 this.authToken = response.access_token;
                 localStorage.setItem('authToken', this.authToken);
                 
-                // Prepare user data
+
                 const userData = {
                     email: email,
                     name: response.user?.name || response.user?.first_name || email.split('@')[0],
@@ -290,7 +256,7 @@ class BackendAPIManager {
         } catch (error) {
             console.error('❌ Backend authentication failed:', error);
             
-            // Clear any stored tokens on auth failure
+
             this.authToken = null;
             localStorage.removeItem('authToken');
             
@@ -300,7 +266,7 @@ class BackendAPIManager {
 
     /**
      * Fetches all places from backend
-     * @returns {Promise<Array>} Array of place objects
+     * 
      */
     async getPlaces() {
         try {
@@ -316,8 +282,7 @@ class BackendAPIManager {
 
     /**
      * Creates a new review via backend API
-     * @param {Object} reviewData - Review data object
-     * @returns {Promise<Object>} Created review object
+     * 
      */
     async createReview(reviewData) {
         try {
@@ -357,7 +322,7 @@ class BackendAPIManager {
 
     /**
      * Checks if user is currently authenticated
-     * @returns {boolean} Authentication status
+     * 
      */
     isAuthenticated() {
         return !!this.authToken;
@@ -366,7 +331,7 @@ class BackendAPIManager {
 
 /**
  * Unified API Adapter that switches between backend and simulation
- * Provides seamless integration with intelligent fallback
+ * 
  */
 class UnifiedAPIAdapter {
     constructor() {
@@ -378,7 +343,7 @@ class UnifiedAPIAdapter {
 
     /**
      * Initializes the API adapter by testing backend connectivity
-     * @returns {Promise<void>}
+     * 
      */
     async initialize() {
         if (this.initialized) return;
@@ -406,9 +371,8 @@ class UnifiedAPIAdapter {
 
     /**
      * Unified login method
-     * @param {string} email - User email
-     * @param {string} password - User password
-     * @returns {Promise<Object>} Login result
+     * 
+     * 
      */
     async login(email, password) {
         await this.initialize();
@@ -422,15 +386,14 @@ class UnifiedAPIAdapter {
             }
         }
         
-        // Fallback to simulation login
+
         return this.simulationLogin(email, password);
     }
 
     /**
      * Simulation login for fallback mode
-     * @param {string} email - User email
-     * @param {string} password - User password
-     * @returns {Promise<Object>} Login result
+     * 
+     * 
      */
     async simulationLogin(email, password) {
         const users = {
@@ -457,7 +420,7 @@ class UnifiedAPIAdapter {
 
     /**
      * Unified places fetching
-     * @returns {Promise<Array>} Places array
+     * 
      */
     async getPlaces() {
         await this.initialize();
@@ -471,13 +434,14 @@ class UnifiedAPIAdapter {
             }
         }
         
-        // Fallback to simulation data
+
         return Object.values(placesData);
     }
 
     /**
      * Gets connection status information
-     * @returns {Object} Connection status details
+     * 
+     *     
      */
     getConnectionStatus() {
         return {
@@ -494,7 +458,8 @@ const apiAdapter = new UnifiedAPIAdapter();
 
 /**
  * Places database - Production-ready data structure
- * @constant {Object} placesData
+ * 
+ * 
  */
 const placesData = {
     "logement-occasion": {
@@ -585,7 +550,7 @@ const placesData = {
     }
 };
 
-// ==================== GLOBAL STATE MANAGEMENT ====================
+
 
 /**
  * Global application state
@@ -594,7 +559,7 @@ let currentUser = null;
 let currentState = APP_STATES.IDLE;
 let apiCallsCount = 0; // For monitoring API performance
 
-// ==================== UTILITY CLASSES ====================
+
 
 /**
  * Validation utility class with comprehensive input validation
@@ -603,8 +568,7 @@ let apiCallsCount = 0; // For monitoring API performance
 class ValidationUtils {
     /**
      * Validates email address with comprehensive regex
-     * @param {string} email - Email to validate
-     * @returns {Object} {isValid: boolean, message: string}
+     * 
      */
     static validateEmail(email) {
         if (!email || typeof email !== 'string') {
@@ -625,8 +589,7 @@ class ValidationUtils {
 
     /**
      * Validates password with security requirements
-     * @param {string} password - Password to validate  
-     * @returns {Object} {isValid: boolean, message: string}
+     *
      */
     static validatePassword(password) {
         if (!password || typeof password !== 'string') {
@@ -646,9 +609,7 @@ class ValidationUtils {
 
     /**
      * Validates review content and rating
-     * @param {string} comment - Review comment
-     * @param {number} rating - Rating value (1-5)
-     * @returns {Object} {isValid: boolean, message: string}
+     * 
      */
     static validateReview(comment, rating) {
         if (!comment || typeof comment !== 'string') {
@@ -673,8 +634,7 @@ class ValidationUtils {
 
     /**
      * Sanitizes input to prevent XSS attacks
-     * @param {string} str - String to sanitize
-     * @returns {string} Sanitized string
+     * 
      */
     static sanitizeString(str) {
         if (!str || typeof str !== 'string') return '';
@@ -698,8 +658,8 @@ class ValidationUtils {
 class LoadingStateManager {
     /**
      * Shows loading indicator with spinner animation
-     * @param {HTMLElement} element - Target element
-     * @param {string} message - Loading message
+     * 
+     * 
      */
     static showLoading(element, message = 'Chargement...') {
         if (!element) return;
@@ -718,9 +678,8 @@ class LoadingStateManager {
 
     /**
      * Shows success message with auto-removal
-     * @param {HTMLElement} element - Target element
-     * @param {string} message - Success message
-     * @param {number} duration - Display duration in ms
+     * 
+     * 
      */
     static showSuccess(element, message = 'Opération réussie', duration = 3000) {
         if (!element) return;
@@ -747,9 +706,8 @@ class LoadingStateManager {
 
     /**
      * Shows error message with detailed debugging info
-     * @param {HTMLElement} element - Target element
-     * @param {string} message - Error message
-     * @param {Error} error - Error object for debugging
+     * 
+     * 
      */
     static showError(element, message = 'Une erreur est survenue', error = null) {
         if (!element) return;
@@ -789,9 +747,8 @@ class LoadingStateManager {
 class APISimulator {
     /**
      * Simulates realistic network delay
-     * @param {number} min - Minimum delay in ms
-     * @param {number} max - Maximum delay in ms
-     * @returns {Promise} Promise that resolves after delay
+     * 
+     * 
      */
     static async simulateNetworkDelay(min = 300, max = 1500) {
         const delay = Math.random() * (max - min) + min;
@@ -800,7 +757,7 @@ class APISimulator {
 
     /**
      * Simulates potential network errors based on success rate
-     * @returns {Promise} Promise that may reject with network error
+     * 
      */
     static async simulateNetworkError() {
         if (Math.random() > API_CONFIG.SUCCESS_RATE) {
@@ -817,9 +774,8 @@ class APISimulator {
 
     /**
      * Makes simulated API call with comprehensive error handling
-     * @param {string} endpoint - API endpoint
-     * @param {Object} options - Request options
-     * @returns {Promise} API response promise
+     * 
+     * 
      */
     static async makeAPICall(endpoint, options = {}) {
         const { method = 'GET', body = null, timeout = API_CONFIG.TIMEOUT } = options;
@@ -863,8 +819,6 @@ class APISimulator {
     }
 }
 
-// ==================== AUTHENTICATION SYSTEM ====================
-
 /**
  * Checks authentication status on app load with error recovery
  * Validates localStorage data and handles corrupted sessions
@@ -891,11 +845,8 @@ function checkAuth() {
     }
 }
 
-/**
- * Updates authentication UI with proper error handling
- * Supports different user roles with visual indicators
- * ✅ CRITICAL: Manages login link visibility based on authentication status
- */
+
+
 function updateAuthUI() {
     try {
         const loginLink = document.getElementById('login-link') || document.getElementById('login-btn');
@@ -904,7 +855,7 @@ function updateAuthUI() {
         const addReviewSection = document.getElementById('add-review');
 
         if (currentUser && userInfo) {
-            // User is authenticated - HIDE login link, SHOW user info
+
             if (loginLink) {
                 loginLink.style.display = 'none';
                 console.log('✅ Login link hidden (user authenticated)');
@@ -929,7 +880,7 @@ function updateAuthUI() {
             
             console.log('👤 User UI updated:', currentUser.email, '| Role:', currentUser.role);
         } else {
-            // User is NOT authenticated - SHOW login link, HIDE user info
+
             if (loginLink) {
                 loginLink.style.display = 'inline-block';
                 console.log('✅ Login link shown (user not authenticated)');
@@ -965,12 +916,7 @@ function logout() {
     }
 }
 
-/**
- * Professional login system with comprehensive validation and API integration
- * @param {string} email - User email
- * @param {string} password - User password  
- * @returns {Promise<boolean>} Login success status
- */
+
 async function login(email, password) {
     try {
         // Input validation
@@ -1019,11 +965,11 @@ async function login(email, password) {
     } catch (error) {
         console.error('❌ Authentication error:', error);
 
-        // Error handling with user feedback
+
         const errorMessage = error.message || 'Erreur de connexion inconnue';
         showLoginError(errorMessage);
 
-        // UI restoration
+
         const loginButton = document.querySelector('.login-button-modern') || document.getElementById('login-submit');
         if (loginButton) {
             loginButton.textContent = 'Se connecter';
@@ -1037,9 +983,9 @@ async function login(email, password) {
 }
 
 /**
- * Displays login error with user-friendly messaging
- * @param {string} message - Error message to display
- */
+ * Displays login error with user-friendly messagin
+ * 
+*/
 function showLoginError(message) {
     try {
         let errorDiv = document.getElementById('error-message');
@@ -1080,7 +1026,7 @@ function showLoginError(message) {
     }
 }
 
-// ==================== PLACES MANAGEMENT SYSTEM ====================
+
 
 /**
  * Loads places from API and displays them with professional error handling
@@ -1460,14 +1406,7 @@ function displayPlaceDetails(place) {
     }
 }
 
-/**
- * =====================================================================================
- * ENHANCED REVIEW DISPLAY SYSTEM
- * =====================================================================================
- * 
- * Professional review display with comprehensive statistics, role-based styling,
- * and advanced user experience features including search, sorting, and filtering.
- */
+
 
 /**
  * Displays reviews with professional styling, statistics, and interactive features
@@ -2111,7 +2050,7 @@ function markReviewHelpful(reviewId, placeId) {
     }
 }
 
-// ==================== REVIEWS MANAGEMENT SYSTEM ====================
+
 
 /**
  * Initializes review form with real-time validation
@@ -2244,25 +2183,7 @@ function validateReviewRating(event) {
     }
 }
 
-/**
- * =====================================================================================
- * PROFESSIONAL REVIEW SUBMISSION SYSTEM
- * =====================================================================================
- * 
- * Advanced review submission with comprehensive API integration, validation pipeline,
- * error recovery mechanisms, and professional user experience patterns.
- * 
- * Features:
- * - Multi-stage validation (client + server simulation)
- * - Real-time user feedback with loading states
- * - Comprehensive error handling with retry mechanisms
- * - Professional API simulation with realistic network behaviors
- * - Automatic data persistence and UI updates
- * - Role-based user identification and access control
- * 
- * @param {Event} e - Form submit event
- * @returns {Promise<void>} - Async operation completion
- */
+
 async function handleReviewSubmit(e) {
     e.preventDefault();
     
@@ -2276,13 +2197,13 @@ async function handleReviewSubmit(e) {
     const maxRetries = 3;
     
     try {
-        // === AUTHENTICATION AND AUTHORIZATION VALIDATION ===
+
         if (!currentUser) {
             throw new ValidationError('Authentication Required', 
                 'Vous devez être connecté pour laisser un avis. Connectez-vous d\'abord.', 401);
         }
 
-        // === DATA EXTRACTION AND SANITIZATION ===
+
         const reviewText = document.getElementById('review-text')?.value?.trim();
         const reviewRating = document.getElementById('review-rating')?.value;
         const urlParams = new URLSearchParams(window.location.search);
@@ -2299,7 +2220,7 @@ async function handleReviewSubmit(e) {
                 'Ce logement n\'existe pas ou a été supprimé.', 404);
         }
 
-        // === MULTI-LEVEL VALIDATION PIPELINE ===
+
         
         // Stage 1: Basic field validation
         const basicValidation = ValidationUtils.validateReview(reviewText, reviewRating);
@@ -2319,7 +2240,7 @@ async function handleReviewSubmit(e) {
             throw new ValidationError('Permission Denied', permissionValidation.message, 403);
         }
 
-        // === UI STATE MANAGEMENT - LOADING STATE ===
+
         loadingStates.setLoading('review-form', {
             button: submitButton,
             originalText: originalButtonText,
@@ -2327,7 +2248,7 @@ async function handleReviewSubmit(e) {
             form: reviewForm
         });
 
-        // === API SUBMISSION WITH RETRY MECHANISM ===
+
         let apiResponse;
         while (retryCount <= maxRetries) {
             try {
@@ -2404,7 +2325,7 @@ async function handleReviewSubmit(e) {
             }
         }
 
-        // === DATA PROCESSING AND PERSISTENCE ===
+
         
         // Create comprehensive review object with metadata
         const newReview = {
@@ -2427,7 +2348,7 @@ async function handleReviewSubmit(e) {
             }
         };
 
-        // === DATA PERSISTENCE WITH BACKUP ===
+
         try {
             // Primary storage
             placesData[placeId].reviews.push(newReview);
@@ -2446,7 +2367,7 @@ async function handleReviewSubmit(e) {
             // Continue even if storage fails - the review is still shown in UI
         }
         
-        // === UI UPDATES AND SUCCESS FEEDBACK ===
+
         
         // Update reviews display
         displayReviews(placesData[placeId].reviews, placeId);
@@ -2531,24 +2452,7 @@ async function handleReviewSubmit(e) {
     }
 }
 
-/**
- * =====================================================================================
- * ADVANCED REVIEW VALIDATION AND UTILITY FUNCTIONS
- * =====================================================================================
- * 
- * Professional validation pipeline with comprehensive content analysis,
- * user permission management, and supporting utility functions.
- */
 
-/**
- * Advanced content validation for review submissions
- * Performs deep analysis of review content quality and appropriateness
- * 
- * @param {string} text - Review text content
- * @param {string|number} rating - User rating (1-5)
- * @param {string} placeId - Place identifier
- * @returns {Object} Validation result with detailed feedback
- */
 function validateReviewContent(text, rating, placeId) {
     try {
         const validation = {
@@ -2634,9 +2538,6 @@ function validateReviewContent(text, rating, placeId) {
  * Validates user permission to submit reviews
  * Implements business rules for review submission eligibility
  * 
- * @param {Object} user - Current user object
- * @param {string} placeId - Place identifier
- * @returns {Object} Permission validation result
  */
 function validateUserReviewPermission(user, placeId) {
     try {
@@ -3070,7 +2971,7 @@ function showSuccessMessage(message) {
     }
 }
 
-// ==================== LOGIN PAGE MANAGEMENT ====================
+
 
 /**
  * Initializes login form with professional real-time validation
@@ -3269,7 +3170,7 @@ async function handleLogin(e) {
     }
 }
 
-// ==================== APPLICATION INITIALIZATION ====================
+
 
 /**
  * Professional application initialization with comprehensive error handling
@@ -3541,10 +3442,5 @@ function showCriticalError(message) {
     }
 }
 
-// ==================== GLOBAL EXPORTS ====================
 
-/**
- * Export essential functions to global scope for HTML onclick handlers
- * This ensures backward compatibility while maintaining modular architecture
- */
 window.logout = logout;
