@@ -280,8 +280,8 @@
     
     <script src="scripts.js"></script>
     <script>
-        // Enhanced character counter for review text
-        document.addEventListener('DOMContentLoaded', function() {
+
+document.addEventListener('DOMContentLoaded', function() {
             const reviewText = document.getElementById('review-text');
             const charCount = document.getElementById('char-count');
             
@@ -290,7 +290,7 @@
                     const count = this.value.length;
                     charCount.textContent = count;
                     
-                    // Color coding for character limit
+
                     if (count > 900) {
                         charCount.style.color = '#e74c3c';
                     } else if (count > 700) {
