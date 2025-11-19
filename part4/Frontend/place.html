@@ -13,25 +13,25 @@
     <button id="mobile-menu-btn" aria-label="Ouvrir le menu" style="background:transparent;border:none;color:var(--white);font-size:20px;display:none">☰</button>
     <nav class="nav-links">
       <a href="index.html">Retour</a>
-      <a href="login.html" id="login-link">Se connecter</a>
+      <a href="login.html" id="login-link" class="login-button">Se connecter</a>
     </nav>
   </header>
   <main class="container">
-    <div id="place-details" class="place-detail">
-      <div>
+    <section class="place-details" id="place-details">
+      <div class="place-info" id="place-main">
         <div class="gallery">
           <div class="img"></div>
           <div class="img"></div>
           <div class="img"></div>
         </div>
-        <div class="detail-card" id="place-main"></div>
+        <!-- place main info injected here -->
       </div>
-      <aside class="detail-card">
+      <aside class="place-info" id="place-side">
         <h3>Informations</h3>
-        <p id="place-side"></p>
+        <p id="place-aside"></p>
         <div style="margin-top:12px"><a class="btn btn-red" id="reserve-btn" href="#">Réserver</a></div>
       </aside>
-    </div>
+    </section>
 
     <section id="reviews" style="margin-top:18px"></section>
     <section id="add-review-inline" style="margin-top:12px"></section>

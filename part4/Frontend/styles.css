@@ -29,8 +29,8 @@ html,body{height:100%;margin:0;background:linear-gradient(180deg,var(--white),#f
 
 /* Grid of places */
 .places{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:20px}
-.place-card{background:var(--white);border-radius:12px;padding:12px;box-shadow:0 6px 18px rgba(11,27,43,0.08);transition:transform .18s ease,box-shadow .18s ease}
-.place-card:hover{transform:translateY(-6px);box-shadow:0 12px 30px rgba(11,27,43,0.12)}
+.place-card{background:var(--white);border-radius:10px;padding:10px;border:1px solid #ddd;margin:20px;box-shadow:0 6px 18px rgba(11,27,43,0.04);transition:transform .18s ease,box-shadow .18s ease}
+.place-card:hover{transform:translateY(-4px);box-shadow:0 10px 24px rgba(11,27,43,0.08)}
 .place-image{height:140px;background:linear-gradient(135deg,#e9eef2,#f6f8fa);border-radius:8px;margin-bottom:10px;display:flex;align-items:center;justify-content:center;color:#677}
 .place-title{font-weight:700;margin:0 0 8px}
 .place-price{color:var(--blue-night);font-weight:800}
@@ -41,6 +41,9 @@ html,body{height:100%;margin:0;background:linear-gradient(180deg,var(--white),#f
 .gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
 .gallery .img{height:120px;background:linear-gradient(135deg,#e9eef2,#f6f8fa);border-radius:8px}
 .detail-card{background:var(--white);padding:16px;border-radius:12px;box-shadow:0 6px 18px rgba(11,27,43,0.06)}
+
+/* Review card fixed params per spec */
+.review-card{background:var(--white);border-radius:10px;padding:10px;border:1px solid #ddd;margin:20px;box-shadow:0 4px 12px rgba(11,27,43,0.04)}
 
 /* Forms */
 form label{display:block;margin:8px 0;font-weight:600}
