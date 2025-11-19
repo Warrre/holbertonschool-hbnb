@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>HBnB - Détails du logement</title>
+  <link rel="stylesheet" href="styles.css">
+  <script defer src="app/scripts.js"></script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="brand">HBnB</div>
+    <button id="mobile-menu-btn" aria-label="Ouvrir le menu" style="background:transparent;border:none;color:var(--white);font-size:20px;display:none">☰</button>
+    <nav class="nav-links">
+      <a href="index.html">Retour</a>
+      <a href="login.html" id="login-link">Se connecter</a>
+    </nav>
+  </header>
+  <main class="container">
+    <div id="place-details" class="place-detail">
+      <div>
+        <div class="gallery">
+          <div class="img"></div>
+          <div class="img"></div>
+          <div class="img"></div>
+        </div>
+        <div class="detail-card" id="place-main"></div>
+      </div>
+      <aside class="detail-card">
+        <h3>Informations</h3>
+        <p id="place-side"></p>
+        <div style="margin-top:12px"><a class="btn btn-red" id="reserve-btn" href="#">Réserver</a></div>
+      </aside>
+    </div>
+
+    <section id="reviews" style="margin-top:18px"></section>
+    <section id="add-review-inline" style="margin-top:12px"></section>
+  </main>
+  <footer class="site-footer">© HBnB</footer>
+</body>
+</html>

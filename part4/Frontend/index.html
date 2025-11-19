@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>HBnB - Liste des logements</title>
+  <link rel="stylesheet" href="styles.css">
+  <script defer src="app/scripts.js"></script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="brand">HBnB</div>
+    <button id="mobile-menu-btn" aria-label="Ouvrir le menu" style="background:transparent;border:none;color:var(--white);font-size:20px;display:none">☰</button>
+    <nav class="nav-links">
+      <a href="index.html">Accueil</a>
+      <a href="login.html" id="login-link">Se connecter</a>
+      <a href="add_review.html" id="add-review-link" style="display:none">Ajouter un avis</a>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <div class="hero-inner">
+      <div class="intro">
+        <h1>Trouvez le logement parfait</h1>
+        <p>Recherchez des studios, appartements et maisons. Connectez-vous pour réserver et laisser des avis.</p>
+        <div class="cta">
+          <a class="btn" href="index.html">Explorer</a>
+          <a class="btn btn-outline" href="login.html">Se connecter</a>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <!-- Illustration placeholder -->
+        <div style="width:340px;height:220px;border-radius:12px;background:linear-gradient(135deg,#e9eef2,#f6f8fa)"></div>
+      </div>
+    </div>
+  </section>
+
+  <main class="container">
+    <section class="filters">
+      <div style="display:flex;gap:8px;align-items:center;flex:1">
+        <img src="images/icons/search.svg" alt="search" style="width:20px;height:20px;opacity:0.7">
+        <input id="text-search" type="search" placeholder="Rechercher (titre, description)" style="flex:1;padding:8px;border-radius:8px;border:1px solid #e4eaef">
+      </div>
+      <label>Filtrer par prix max: <input id="price-filter" type="number" min="0" step="0.01"></label>
+      <button id="apply-filter">Appliquer</button>
+    </section>
+
+    <section id="places-list" class="places"></section>
+  </main>
+
+  <footer class="site-footer">© HBnB</footer>
+</body>
+</html>

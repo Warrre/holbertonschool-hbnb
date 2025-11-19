@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>HBnB - Connexion</title>
+  <link rel="stylesheet" href="styles.css">
+  <script defer src="app/scripts.js"></script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="brand">HBnB</div>
+    <button id="mobile-menu-btn" aria-label="Ouvrir le menu" style="background:transparent;border:none;color:var(--white);font-size:20px;display:none">☰</button>
+    <nav class="nav-links">
+      <a href="index.html">Accueil</a>
+    </nav>
+  </header>
+  <main class="container" style="display:flex;justify-content:center;align-items:center;min-height:60vh">
+    <div class="detail-card" style="max-width:420px;width:100%">
+      <h2>Connexion</h2>
+      <form id="login-form">
+        <label>Email: <input type="email" id="email" required></label>
+        <label>Mot de passe: <input type="password" id="password" required></label>
+        <button type="submit">Se connecter</button>
+      </form>
+      <div id="login-message" role="status" style="margin-top:10px;color:#c0392b"></div>
+    </div>
+  </main>
+  <footer class="site-footer">© HBnB</footer>
+</body>
+</html>

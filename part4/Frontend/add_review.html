@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>HBnB - Ajouter un avis</title>
+  <link rel="stylesheet" href="styles.css">
+  <script defer src="app/scripts.js"></script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="brand">HBnB</div>
+    <button id="mobile-menu-btn" aria-label="Ouvrir le menu" style="background:transparent;border:none;color:var(--white);font-size:20px;display:none">☰</button>
+    <nav class="nav-links">
+      <a href="index.html">Accueil</a>
+    </nav>
+  </header>
+  <main class="container" style="display:flex;justify-content:center;align-items:flex-start;min-height:60vh">
+    <div class="detail-card" style="max-width:640px;width:100%">
+      <h2>Ajouter un avis</h2>
+      <form id="add-review-form">
+        <label>Place ID: <input id="place-id" required></label>
+        <label>Note (1-5): <input id="rating" type="number" min="1" max="5" required></label>
+        <label>Texte: <textarea id="review-text" required></textarea></label>
+        <button type="submit">Envoyer</button>
+      </form>
+      <div id="add-review-message" role="status" style="margin-top:8px;color:#c0392b"></div>
+    </div>
+  </main>
+  <footer class="site-footer">© HBnB</footer>
+</body>
+</html>
