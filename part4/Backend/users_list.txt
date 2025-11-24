@@ -4,9 +4,3 @@ Admin account:
 Demo account:
   email: demo@example.com
   password: DemoPass123
-User1 account:
-  email: e2e_user@example.com
-  passeword: Password123
-User test account:
-  email: test@example.com
-  passeword: pass123
