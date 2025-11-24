@@ -18,23 +18,28 @@ class UserList(Resource):
     @api.response(201, 'User successfully created')
     @api.response(400, 'Email already registered')
     @api.response(400, 'Invalid input data')
-    @jwt_required()
     def post(self):
-        """Register a new user (admin only)"""
-        # Determine admin status from JWT claims
+        """Register a new user.
+
+        If called without JWT, this endpoint allows self-registration (non-admin).
+        If called with an admin JWT, the admin may create users and set `is_admin`.
+        """
+        # Check if caller provided a JWT and whether it's admin
         jwt_claims = None
         try:
             jwt_claims = get_jwt()
         except Exception:
             jwt_claims = None
 
-        is_admin = False
+        is_admin_caller = False
         if jwt_claims and 'is_admin' in jwt_claims:
-            is_admin = bool(jwt_claims.get('is_admin', False))
-        if not is_admin:
-            return {'error': 'Admin privileges required'}, 403
+            is_admin_caller = bool(jwt_claims.get('is_admin', False))
 
         user_data = api.payload or {}
+
+        # Prevent non-admins from creating admin accounts
+        if user_data.get('is_admin') and not is_admin_caller:
+            return {'error': 'Cannot set is_admin'}, 403
 
         existing_user = facade.get_user_by_email(user_data.get('email'))
         if existing_user:

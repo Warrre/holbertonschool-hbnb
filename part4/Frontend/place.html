@@ -1,41 +1,62 @@
 <!doctype html>
 <html lang="fr">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>HBnB - Détails du logement</title>
-  <link rel="stylesheet" href="styles.css">
-  <script defer src="app/scripts.js"></script>
-</head>
-<body>
-  <header class="site-header">
-    <div class="brand">HBnB</div>
-    <button id="mobile-menu-btn" aria-label="Ouvrir le menu" style="background:transparent;border:none;color:var(--white);font-size:20px;display:none">☰</button>
-    <nav class="nav-links">
-      <a href="index.html">Retour</a>
-      <a href="login.html" id="login-link" class="login-button">Se connecter</a>
-    </nav>
-  </header>
-  <main class="container">
-    <section class="place-details" id="place-details">
-      <div class="place-info" id="place-main">
-        <div class="gallery">
-          <div class="img"></div>
-          <div class="img"></div>
-          <div class="img"></div>
-        </div>
-        <!-- place main info injected here -->
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>HBnB - Détail</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="header-inner">
+        <a href="index.html" class="logo-link"><img src="images/logo.svg" alt="HBnB" class="logo"></a>
+        <nav class="main-nav">
+          <a href="index.html">Accueil</a>
+          <a href="register.html" id="register-link" class="login-button">Inscription</a>
+          <a href="login.html" id="login-link" class="login-button">Se connecter</a>
+          <button id="logout-button" class="login-button" style="display:none;">Se déconnecter</button>
+        </nav>
       </div>
-      <aside class="place-info" id="place-side">
-        <h3>Informations</h3>
-        <p id="place-aside"></p>
-        <div style="margin-top:12px"><a class="btn btn-red" id="reserve-btn" href="#">Réserver</a></div>
-      </aside>
-    </section>
+    </header>
 
-    <section id="reviews" style="margin-top:18px"></section>
-    <section id="add-review-inline" style="margin-top:12px"></section>
-  </main>
-  <footer class="site-footer">© HBnB</footer>
-</body>
-</html>
+    <main>
+      <section id="place-details" class="place-details">
+        <!-- place details injected by scripts.js -->
+      </section>
+
+      <section id="reviews" class="reviews">
+        <h3>Avis</h3>
+        <!-- review-card elements inserted here -->
+      </section>
+
+      <section id="add-review" class="add-review">
+        <div id="add-review-container">
+          <h3>Ajouter un avis</h3>
+          <form id="review-form" class="form">
+            <label for="review-text">Commentaire</label>
+            <textarea id="review-text" required></textarea>
+
+            <label for="rating">Note</label>
+            <select id="rating" required>
+              <option value="">--</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+            </select>
+
+            <button type="submit" class="btn">Envoyer</button>
+          </form>
+        </div>
+        <p id="review-error" class="error"></p>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="footer-inner">&copy; HBnB — Tous droits réservés.</div>
+    </footer>
+
+    <script src="scripts.js"></script>
+    </body>
+  </html>

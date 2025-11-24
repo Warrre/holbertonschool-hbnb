@@ -1,31 +1,48 @@
-<!doctype html>
-<html lang="fr">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>HBnB - Connexion</title>
-  <link rel="stylesheet" href="styles.css">
-  <script defer src="app/scripts.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" type="image/png" sizes="32x32" href="/images/icon.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/images/icon.png">
+    <link rel="apple-touch-icon" href="/images/icon.png">
+    <meta name="theme-color" content="#2d1850">
 </head>
 <body>
-  <header class="site-header">
-    <div class="brand">HBnB</div>
-    <button id="mobile-menu-btn" aria-label="Ouvrir le menu" style="background:transparent;border:none;color:var(--white);font-size:20px;display:none">☰</button>
-    <nav class="nav-links">
-      <a href="index.html">Accueil</a>
-    </nav>
-  </header>
-  <main class="container" style="display:flex;justify-content:center;align-items:center;min-height:60vh">
-    <div class="detail-card" style="max-width:420px;width:100%">
-      <h2>Connexion</h2>
-      <form id="login-form">
-        <label>Email: <input type="email" id="email" required></label>
-        <label>Mot de passe: <input type="password" id="password" required></label>
-        <button type="submit">Se connecter</button>
-      </form>
-      <div id="login-message" role="status" style="margin-top:10px;color:#c0392b"></div>
-    </div>
-  </main>
-  <footer class="site-footer">© HBnB</footer>
+        <header class="site-header">
+            <div class="header-inner">
+                <a href="index.html" class="logo-link"><img src="images/logo.svg" alt="HBnB" class="logo"></a>
+                <nav class="main-nav">
+                    <a href="index.html">Accueil</a>
+                    <a href="register.html" id="register-link" class="login-button">Inscription</a>
+                    <a href="login.html" id="login-link" class="login-button">Se connecter</a>
+                    <button id="logout-button" class="login-button" style="display:none;">Se déconnecter</button>
+                </nav>
+            </div>
+        </header>
+
+        <main>
+            <section class="auth-page">
+                <h2>Connexion</h2>
+                <form id="login-form" class="form">
+                    <label for="email">Email</label>
+                    <input id="email" type="email" required>
+
+                    <label for="password">Mot de passe</label>
+                    <input id="password" type="password" required>
+
+                    <button type="submit" class="btn">Se connecter</button>
+                </form>
+                <p id="login-error" class="error"></p>
+            </section>
+        </main>
+
+        <footer class="site-footer">
+            <div class="footer-inner">&copy; HBnB — Tous droits réservés.</div>
+        </footer>
+
+        <script src="scripts.js"></script>
 </body>
 </html>

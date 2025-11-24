@@ -31,12 +31,32 @@ class User(BaseModel):
         cls._bcrypt = bcrypt
     
     def hash_password(self, password):
-        """Hash the password using bcrypt."""
-        self.password = self._bcrypt.hashpw(password.encode('utf-8'), self._bcrypt.gensalt()).decode('utf-8')
+        """Hash the password using available bcrypt implementation.
+
+        Supports both Flask-Bcrypt (generate_password_hash) and raw bcrypt (hashpw).
+        """
+        if hasattr(self._bcrypt, 'generate_password_hash'):
+            # Flask-Bcrypt
+            self.password = self._bcrypt.generate_password_hash(password).decode('utf-8')
+        else:
+            # fallback to plain bcrypt API
+            self.password = self._bcrypt.hashpw(password.encode('utf-8'), self._bcrypt.gensalt()).decode('utf-8')
     
     def verify_password(self, password):
-        """Verify the password using bcrypt."""
-        return self._bcrypt.checkpw(password.encode('utf-8'), self.password.encode('utf-8'))
+        """Verify the password using available bcrypt implementation.
+
+        Supports both Flask-Bcrypt (check_password_hash) and raw bcrypt (checkpw).
+        """
+        if not self.password:
+            return False
+        if hasattr(self._bcrypt, 'check_password_hash'):
+            return self._bcrypt.check_password_hash(self.password, password)
+        else:
+            return self._bcrypt.checkpw(password.encode('utf-8'), self.password.encode('utf-8'))
+
+    # Backwards-compatible alias expected by some modules
+    def check_password(self, password):
+        return self.verify_password(password)
     
     def to_dict(self):
         """Return a dictionary representation of the user."""
